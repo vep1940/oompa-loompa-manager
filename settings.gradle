@@ -1,0 +1,2 @@
+rootProject.name = "Oompa Loompa Manager"
+include ':app'
