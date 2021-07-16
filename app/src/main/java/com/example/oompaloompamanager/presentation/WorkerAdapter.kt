@@ -6,30 +6,37 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.oompaloompamanager.R
 import com.example.oompaloompamanager.databinding.ItemListBinding
-import com.example.oompaloompamanager.domain.models.OompaLoompa
 import com.example.oompaloompamanager.presentation.models.OompaLoompaViewData
 
 class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
 
-    private val adapterList = AsyncListDiffer(this, object : DiffUtil.ItemCallback<OompaLoompaViewData>() {
-        override fun areItemsTheSame(oldItem: OompaLoompaViewData, newItem: OompaLoompaViewData): Boolean =
-            oldItem.id == newItem.id
+    private val adapterList =
+        AsyncListDiffer(this, object : DiffUtil.ItemCallback<OompaLoompaViewData>() {
+            override fun areItemsTheSame(
+                oldItem: OompaLoompaViewData,
+                newItem: OompaLoompaViewData
+            ): Boolean =
+                oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: OompaLoompaViewData, newItem: OompaLoompaViewData): Boolean {
-            return oldItem.firstName == newItem.firstName &&
-                    oldItem.lastName == newItem.lastName &&
-                    oldItem.gender == newItem.gender &&
-                    oldItem.image == newItem.image &&
-                    oldItem.profession == newItem.profession &&
-                    oldItem.email == newItem.email &&
-                    oldItem.age == newItem.age &&
-                    oldItem.height == newItem.height &&
-                    oldItem.favoriteColor == newItem.favoriteColor &&
-                    oldItem.favoriteFood == newItem.favoriteFood
-        }
-    })
+            override fun areContentsTheSame(
+                oldItem: OompaLoompaViewData,
+                newItem: OompaLoompaViewData
+            ): Boolean {
+                return oldItem.firstName == newItem.firstName &&
+                        oldItem.lastName == newItem.lastName &&
+                        oldItem.gender == newItem.gender &&
+                        oldItem.image == newItem.image &&
+                        oldItem.profession == newItem.profession &&
+                        oldItem.email == newItem.email &&
+                        oldItem.age == newItem.age &&
+                        oldItem.height == newItem.height &&
+                        oldItem.favoriteColor == newItem.favoriteColor &&
+                        oldItem.favoriteFood == newItem.favoriteFood
+            }
+        })
 
     fun submitList(workerList: List<OompaLoompaViewData>) {
         adapterList.submitList(workerList)
@@ -60,8 +67,12 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
 
         fun bind(worker: OompaLoompaViewData) {
             with(itemListBinding) {
-                // TODO Cargar imágenes
-//                ivProfileImage
+
+                Glide.with(itemView)
+                    .load(worker.image)
+                    .placeholder(R.drawable.ic_void_image)
+                    .error(R.drawable.ic_broken_image)
+                    .into(ivProfileImage)
                 tvName.text = context.getString(
                     R.string.item_viewholder_worker_name,
                     worker.firstName,
