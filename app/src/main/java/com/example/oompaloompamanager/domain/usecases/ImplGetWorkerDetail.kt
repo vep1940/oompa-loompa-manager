@@ -21,6 +21,7 @@ class ImplGetWorkerDetail @Inject constructor(private val workerRepository: Work
                     )
                 }
                 is AppResponse.ResponseKo -> emit(response)
+                is AppResponse.Loading -> {}
             }
         }
     }

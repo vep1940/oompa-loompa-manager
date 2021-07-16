@@ -22,10 +22,12 @@ abstract class BaseRepository {
                             networkResponse
                         }
                         is AppResponse.ResponseKo -> networkResponse
+                        is AppResponse.Loading -> networkResponse
                     }
                 }
             }
             is AppResponse.ResponseKo -> localResponse
+            is AppResponse.Loading -> localResponse
         }
 
         return when (response) {
@@ -37,6 +39,7 @@ abstract class BaseRepository {
                 }
             }
             is AppResponse.ResponseKo -> response
+            is AppResponse.Loading -> response
         }
     }
 }

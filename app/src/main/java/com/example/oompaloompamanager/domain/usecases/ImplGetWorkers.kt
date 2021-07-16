@@ -23,6 +23,7 @@ class ImplGetWorkers @Inject constructor(private val workerRepository: WorkerRep
                     )
                 }
                 is AppResponse.ResponseKo -> emit(response)
+                is AppResponse.Loading -> {}
             }
         }
     }.flowOn(Dispatchers.IO)
