@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
+import android.widget.AbsListView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +21,7 @@ class ListFragment : BaseFragment() {
     private val binding: ListFragmentBinding get() = _binding!!
 
     private lateinit var adapter: WorkerAdapter
+    private lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,12 +34,6 @@ class ListFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        with(binding){
-            rvList.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            adapter = WorkerAdapter()
-            rvList.adapter = adapter
-        }
 
         viewModel.workerList.observe(viewLifecycleOwner){ response ->
             when (response){
@@ -54,6 +48,20 @@ class ListFragment : BaseFragment() {
                 is AppResponse.Loading -> { binding.loading.visibility = View.VISIBLE }
             }
         }
+
+        with(binding){
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            rvList.layoutManager = layoutManager
+            adapter = WorkerAdapter()
+            rvList.adapter = adapter
+
+            rvList.setOnScrollChangeListener { _, _, _, _, _ ->
+                if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1)
+                    viewModel.getNextWorkers()
+            }
+        }
+
+        viewModel.getNextWorkers()
     }
 
 }

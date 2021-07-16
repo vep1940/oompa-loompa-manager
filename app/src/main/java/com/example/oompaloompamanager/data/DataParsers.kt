@@ -11,8 +11,8 @@ import com.example.oompaloompamanager.domain.models.OompaLoompaDetail
 fun OompaLoompaResponse.toDomain(): OompaLoompa{
     return OompaLoompa(
         id,
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         gender.toGender(),
         image,
         profession,

@@ -21,6 +21,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val workerDataList = HashMap<Int, OompaLoompaViewData>()
+    private var page = 1
 
     private var _workerList = MutableLiveData<AppResponse<List<OompaLoompaViewData>>>()
     val workerList: LiveData<AppResponse<List<OompaLoompaViewData>>> get() = _workerList
@@ -28,7 +29,7 @@ class MainViewModel @Inject constructor(
     private var _workerDetail = MutableLiveData<AppResponse<OompaLoompaDetailViewData>>()
     val workerDetail: LiveData<AppResponse<OompaLoompaDetailViewData>> get() = _workerDetail
 
-    fun getWorkers(page: Int) {
+    fun getNextWorkers() {
         viewModelScope.launch {
             if (_workerList.value !is AppResponse.Loading) {
                 _workerList.value = AppResponse.Loading
@@ -43,6 +44,7 @@ class MainViewModel @Inject constructor(
                             })
                             _workerList.value =
                                 AppResponse.ResponseOk(workerDataList.values.toList())
+                            page++
                         }
                         else -> _workerList.value = viewResponse
                     }

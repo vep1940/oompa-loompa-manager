@@ -3,7 +3,6 @@ package com.example.oompaloompamanager.data.datasources.local
 import com.example.oompaloompamanager.commons.AppResponse
 import com.example.oompaloompamanager.data.datasources.DataSource
 import com.example.oompaloompamanager.data.models.OompaLoompaDetailResponse
-import com.example.oompaloompamanager.data.models.OompaLoompaResponse
 import com.example.oompaloompamanager.data.models.WorkerPageResponse
 import javax.inject.Inject
 
