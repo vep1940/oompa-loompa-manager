@@ -1,0 +1,29 @@
+package com.example.oompaloompamanager.domain.usecases
+
+import com.example.oompaloompamanager.commons.AppResponse
+import com.example.oompaloompamanager.data.repositories.WorkerRepository
+import com.example.oompaloompamanager.domain.toViewData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
+
+class ImplGetWorkers @Inject constructor(private val workerRepository: WorkerRepository) :
+    GetWorkers {
+
+    override operator fun invoke(page: Int) = flow {
+        workerRepository.getWorkers(page).collect { response ->
+            when (response) {
+                is AppResponse.ResponseOk -> {
+                    emit(
+                        AppResponse.ResponseOk(
+                            response.value.map { worker -> worker.toViewData() }
+                        )
+                    )
+                }
+                is AppResponse.ResponseKo -> emit(response)
+            }
+        }
+    }.flowOn(Dispatchers.IO)
+}
