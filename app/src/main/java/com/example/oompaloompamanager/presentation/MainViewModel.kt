@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.oompaloompamanager.commons.AppResponse
 import com.example.oompaloompamanager.domain.usecases.GetWorkerDetail
 import com.example.oompaloompamanager.domain.usecases.GetWorkers
 import com.example.oompaloompamanager.presentation.models.OompaLoompaDetailViewData
@@ -19,26 +20,51 @@ class MainViewModel @Inject constructor(
     private val getWorkerDetailUC: GetWorkerDetail
 ) : ViewModel() {
 
-    private var _workerList = MutableLiveData<List<OompaLoompaViewData>>(listOf())
-    val workerList: LiveData<List<OompaLoompaViewData>> get() = _workerList
+    private val workerDataList = HashMap<Int, OompaLoompaViewData>()
 
-    private var _workerDetail = MutableLiveData<OompaLoompaDetailViewData>()
-    val workerDetail: LiveData<OompaLoompaDetailViewData> get() = _workerDetail
+    private var _workerList = MutableLiveData<AppResponse<List<OompaLoompaViewData>>>()
+    val workerList: LiveData<AppResponse<List<OompaLoompaViewData>>> get() = _workerList
 
-    //TODO -> LOADING / GESTION ERRORES
+    private var _workerDetail = MutableLiveData<AppResponse<OompaLoompaDetailViewData>>()
+    val workerDetail: LiveData<AppResponse<OompaLoompaDetailViewData>> get() = _workerDetail
 
-    fun getWorkers(page: Int){
+    fun getWorkers(page: Int) {
         viewModelScope.launch {
-            getWorkersUC(page).collect {
-
+            if (_workerList.value !is AppResponse.Loading) {
+                _workerList.value = AppResponse.Loading
+                getWorkersUC(page).collect { viewResponse ->
+                    when (viewResponse) {
+                        is AppResponse.ResponseOk -> {
+                            workerDataList.putAll(viewResponse.value.map { value ->
+                                Pair(
+                                    value.id,
+                                    value
+                                )
+                            })
+                            _workerList.value =
+                                AppResponse.ResponseOk(workerDataList.values.toList())
+                        }
+                        else -> _workerList.value = viewResponse
+                    }
+                }
             }
         }
     }
 
-    fun getWorkerDetail(id: Int){
+    fun getWorkerDetail(id: Int) {
         viewModelScope.launch {
-            getWorkerDetailUC(id).collect {
+            if (_workerDetail.value !is AppResponse.Loading) {
+                getWorkerDetailUC(id).collect {
+                    _workerDetail.value = AppResponse.Loading
+                    getWorkerDetailUC(id).collect { viewResponse ->
+                        when (viewResponse) {
+                            is AppResponse.ResponseOk -> {
 
+                            }
+                            else -> _workerDetail.value = viewResponse
+                        }
+                    }
+                }
             }
         }
     }

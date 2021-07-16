@@ -9,14 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.oompaloompamanager.R
 import com.example.oompaloompamanager.databinding.ItemListBinding
 import com.example.oompaloompamanager.domain.models.OompaLoompa
+import com.example.oompaloompamanager.presentation.models.OompaLoompaViewData
 
 class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
 
-    private val adapterList = AsyncListDiffer(this, object : DiffUtil.ItemCallback<OompaLoompa>() {
-        override fun areItemsTheSame(oldItem: OompaLoompa, newItem: OompaLoompa): Boolean =
+    private val adapterList = AsyncListDiffer(this, object : DiffUtil.ItemCallback<OompaLoompaViewData>() {
+        override fun areItemsTheSame(oldItem: OompaLoompaViewData, newItem: OompaLoompaViewData): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: OompaLoompa, newItem: OompaLoompa): Boolean {
+        override fun areContentsTheSame(oldItem: OompaLoompaViewData, newItem: OompaLoompaViewData): Boolean {
             return oldItem.firstName == newItem.firstName &&
                     oldItem.lastName == newItem.lastName &&
                     oldItem.gender == newItem.gender &&
@@ -25,12 +26,12 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
                     oldItem.email == newItem.email &&
                     oldItem.age == newItem.age &&
                     oldItem.height == newItem.height &&
-                    oldItem.additionalInfo.favoriteColor == newItem.additionalInfo.favoriteColor &&
-                    oldItem.additionalInfo.favoriteFood == newItem.additionalInfo.favoriteFood
+                    oldItem.favoriteColor == newItem.favoriteColor &&
+                    oldItem.favoriteFood == newItem.favoriteFood
         }
     })
 
-    fun submitList(workerList: List<OompaLoompa>) {
+    fun submitList(workerList: List<OompaLoompaViewData>) {
         adapterList.submitList(workerList)
     }
 
@@ -57,7 +58,7 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
     ) :
         RecyclerView.ViewHolder(itemListBinding.root) {
 
-        fun bind(worker: OompaLoompa) {
+        fun bind(worker: OompaLoompaViewData) {
             with(itemListBinding) {
                 // TODO Cargar imágenes
 //                ivProfileImage
@@ -67,7 +68,7 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
                     worker.lastName
                 )
                 tvProfession.text = worker.profession
-                tvGender.text = worker.gender.value
+                tvGender.text = worker.gender
             }
         }
 
