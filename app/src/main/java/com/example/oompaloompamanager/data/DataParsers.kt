@@ -27,7 +27,7 @@ private fun String.toGender(): Gender{
     return when (this){
         "F" -> Gender.FEMALE
         "M" -> Gender.MALE
-        else -> Gender.UNDEFINED
+        else -> Gender.OTHER
     }
 }
 
