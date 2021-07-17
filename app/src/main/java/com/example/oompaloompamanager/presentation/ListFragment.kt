@@ -162,9 +162,10 @@ class ListFragment : BaseFragment() {
             }
         }
 
-        binding.rvList.setOnScrollChangeListener { _, _, _, _, _ ->
-            if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1)
+        binding.rvList.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1){
                 viewModel.getNextWorkers()
+            }
         }
 
         if (adapter.itemCount == 0) {
