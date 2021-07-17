@@ -1,11 +1,13 @@
 package com.example.oompaloompamanager.data.datasources.network
 
+import com.example.oompaloompamanager.BuildConfig
 import com.example.oompaloompamanager.commons.AppResponse
 import com.example.oompaloompamanager.data.datasources.DataSource
 import com.example.oompaloompamanager.data.datasources.network.services.ApiService
 import com.example.oompaloompamanager.data.models.OompaLoompaDetailResponse
 import com.example.oompaloompamanager.data.models.WorkerPageResponse
 import com.example.oompaloompamanager.domain.constants.AppError
+import okhttp3.OkHttpClient
 import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -20,7 +22,11 @@ class ImplNetworkDatasource @Inject constructor() : DataSource.Network {
             Retrofit.Builder()
                 .baseUrl("https://2q2woep105.execute-api.eu-west-1.amazonaws.com/napptilus/")
                 .addConverterFactory(MoshiConverterFactory.create())
-                .build()
+                .apply {
+                    if (BuildConfig.DEBUG) {
+                        client(OkHttpClient.Builder().addInterceptor(LoggingInterceptor()).build())
+                    }
+                }.build()
                 .create(ApiService::class.java)
         }
     }
@@ -36,7 +42,7 @@ class ImplNetworkDatasource @Inject constructor() : DataSource.Network {
     private suspend fun <T> safeRequest(requestLambda: suspend () -> Response<T>): AppResponse<T> {
         return try {
             val response = requestLambda()
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 response.body()?.let { responseBody ->
                     AppResponse.ResponseOk(responseBody)
                 } ?: let {
