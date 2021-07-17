@@ -7,7 +7,12 @@ import com.example.oompaloompamanager.domain.constants.AppError
 
 abstract class BaseFragment : Fragment() {
 
+    private var toast: Toast? = null
+
     fun showError(error: AppError){
+        toast?.apply {
+            this.cancel()
+        }
         Toast.makeText(
             context,
             getString(
