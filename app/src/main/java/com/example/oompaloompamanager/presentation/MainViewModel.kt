@@ -10,6 +10,8 @@ import com.example.oompaloompamanager.domain.usecases.GetWorkers
 import com.example.oompaloompamanager.presentation.models.OompaLoompaDetailViewData
 import com.example.oompaloompamanager.presentation.models.OompaLoompaViewData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +22,12 @@ class MainViewModel @Inject constructor(
     private val getWorkerDetailUC: GetWorkerDetail
 ) : ViewModel() {
 
-    private val workerDataList = HashMap<Int, OompaLoompaViewData>()
+    private var nameFilter = ""
+    private val professionFilters = mutableSetOf<String>()
+    private val genderFilters = mutableSetOf<String>()
+
+    private val workerTotalDataList = mutableListOf<OompaLoompaViewData>()
+    private var workerDataList = listOf<OompaLoompaViewData>()
     private var page = 1
 
     private var _workerList = MutableLiveData<AppResponse<List<OompaLoompaViewData>>>()
@@ -29,9 +36,6 @@ class MainViewModel @Inject constructor(
     private var _workerDetail = MutableLiveData<AppResponse<OompaLoompaDetailViewData>>()
     val workerDetail: LiveData<AppResponse<OompaLoompaDetailViewData>> get() = _workerDetail
 
-    fun clearWorkerErrors(){
-        _workerList.value = AppResponse.ResponseOk(workerDataList.values.toList())
-    }
 
     fun getNextWorkers() {
         viewModelScope.launch {
@@ -40,14 +44,8 @@ class MainViewModel @Inject constructor(
                 getWorkersUC(page).collect { viewResponse ->
                     when (viewResponse) {
                         is AppResponse.ResponseOk -> {
-                            workerDataList.putAll(viewResponse.value.map { value ->
-                                Pair(
-                                    value.id,
-                                    value
-                                )
-                            })
-                            _workerList.value =
-                                AppResponse.ResponseOk(workerDataList.values.toList())
+                            workerTotalDataList.addAll(viewResponse.value)
+                            checkFilters()
                             page++
                         }
                         is AppResponse.ResponseKo -> {
@@ -59,6 +57,52 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun getProfessionFilters() = professionFilters
+
+    fun filterWorkersByProfession(filterKey: String) {
+        professionFilters.add(filterKey.lowercase())
+        checkFilters()
+    }
+
+    fun removeFilterWorkersByProfession(filterKey: String) {
+        professionFilters.remove(filterKey.lowercase())
+        checkFilters()
+    }
+
+    fun getGenderFilters() = genderFilters
+
+    fun filterWorkersByGender(filterKey: String) {
+        genderFilters.add(filterKey.lowercase())
+        checkFilters()
+    }
+
+    fun removeFilterWorkersByGender(filterKey: String) {
+        genderFilters.remove(filterKey.lowercase())
+        checkFilters()
+    }
+
+    fun getNameFilter() = nameFilter
+
+    fun filterWorkersByName(filterKey: String) {
+        nameFilter = filterKey.lowercase()
+        checkFilters()
+    }
+
+    private fun checkFilters() {
+        viewModelScope.launch{
+            workerDataList = workerTotalDataList.filter { worker ->
+                (professionFilters.isEmpty() || professionFilters.contains(worker.profession.lowercase())) &&
+                (genderFilters.isEmpty() || genderFilters.contains(worker.gender.lowercase())) &&
+                (nameFilter.isBlank() || (worker.firstName + " " + worker.lastName).contains(nameFilter, true))
+            }
+            _workerList.value = AppResponse.ResponseOk(workerDataList)
+        }
+    }
+
+    fun clearWorkerErrors() {
+        _workerList.value = AppResponse.ResponseOk(workerDataList.toList())
     }
 
     fun getWorkerDetail(id: Int) {

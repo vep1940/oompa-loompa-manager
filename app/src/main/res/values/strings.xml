@@ -5,4 +5,7 @@
 
     <string name="item_viewholder_worker_name">%1$s %2$s</string>
     <string name="error_message">Error %1$s: %2$s</string>
+
+    <string name="filter_gender_title">Gender</string>
+    <string name="filter_profession_title">Profession</string>
 </resources>
