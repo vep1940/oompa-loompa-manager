@@ -29,6 +29,10 @@ class MainViewModel @Inject constructor(
     private var _workerDetail = MutableLiveData<AppResponse<OompaLoompaDetailViewData>>()
     val workerDetail: LiveData<AppResponse<OompaLoompaDetailViewData>> get() = _workerDetail
 
+    fun clearWorkerErrors(){
+        _workerList.value = AppResponse.ResponseOk(workerDataList.values.toList())
+    }
+
     fun getNextWorkers() {
         viewModelScope.launch {
             if (_workerList.value !is AppResponse.Loading) {
@@ -46,7 +50,11 @@ class MainViewModel @Inject constructor(
                                 AppResponse.ResponseOk(workerDataList.values.toList())
                             page++
                         }
-                        else -> _workerList.value = viewResponse
+                        is AppResponse.ResponseKo -> {
+                            _workerList.value = viewResponse
+                        }
+                        is AppResponse.Loading -> {
+                        }
                     }
                 }
             }

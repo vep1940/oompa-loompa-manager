@@ -24,6 +24,8 @@ class ImplWorkerRepository @Inject constructor(
         emit(response)
     }.flowOn(Dispatchers.IO)
 
+    override fun getWorkerPages(): Int? = localDatasource.getWorkerPages()
+
     override fun getWorkerDetail(id: Int) = flow {
 
         val response = manageRequest(

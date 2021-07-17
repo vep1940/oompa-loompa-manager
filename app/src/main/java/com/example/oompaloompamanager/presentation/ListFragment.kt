@@ -34,6 +34,17 @@ class ListFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(binding){
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            rvList.layoutManager = layoutManager
+            adapter = WorkerAdapter()
+            rvList.adapter = adapter
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         viewModel.workerList.observe(viewLifecycleOwner){ response ->
             when (response){
@@ -49,19 +60,20 @@ class ListFragment : BaseFragment() {
             }
         }
 
-        with(binding){
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            rvList.layoutManager = layoutManager
-            adapter = WorkerAdapter()
-            rvList.adapter = adapter
-
-            rvList.setOnScrollChangeListener { _, _, _, _, _ ->
-                if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1)
-                    viewModel.getNextWorkers()
-            }
+        binding.rvList.setOnScrollChangeListener { _, _, _, _, _ ->
+            if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1)
+                viewModel.getNextWorkers()
         }
 
-        viewModel.getNextWorkers()
+        if (adapter.itemCount == 0){
+            viewModel.getNextWorkers()
+        }
+    }
+
+    // Fix -> If screen is rotated when an error is being captured, adapter can not recover data.
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.clearWorkerErrors()
     }
 
 }

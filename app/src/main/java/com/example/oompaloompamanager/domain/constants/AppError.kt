@@ -6,5 +6,6 @@ enum class AppError (val code: Int, val message: String) {
     NO_INTERNET_ERROR(12, ""),
     HTTP_ERROR(13, ""),
     PARSING_ERROR(14, ""),
+    NO_MORE_PAGES_ERROR(15, ""),
     UNKNOWN_ERROR(100, "")
 }

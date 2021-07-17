@@ -9,5 +9,7 @@ interface WorkerRepository {
 
     fun getWorkers(page: Int): Flow<AppResponse<List<OompaLoompa>>>
 
+    fun getWorkerPages(): Int?
+
     fun getWorkerDetail(id: Int): Flow<AppResponse<OompaLoompaDetail>>
 }

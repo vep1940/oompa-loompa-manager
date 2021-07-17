@@ -9,15 +9,21 @@ import javax.inject.Inject
 class ImplLocalDatasource @Inject constructor() : DataSource.Local {
 
     companion object {
+        private var totalWorkerPages: Int? = null
         private val cacheOompaLoompaResponse: HashMap<Int, WorkerPageResponse> =
             hashMapOf()
         private val cacheOompaLoompaDetailResponse: HashMap<Int, OompaLoompaDetailResponse> =
             hashMapOf()
     }
 
+    override fun getWorkerPages(): Int? = totalWorkerPages
+
     override fun getWorkers(page: Int) = AppResponse.ResponseOk(cacheOompaLoompaResponse[page])
 
     override fun setWorkers(page: Int, workerList: WorkerPageResponse) {
+        if (totalWorkerPages == null){
+            totalWorkerPages = workerList.total
+        }
         cacheOompaLoompaResponse[page] = workerList
     }
 

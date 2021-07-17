@@ -13,6 +13,7 @@ interface DataSource {
     }
 
     interface Local {
+        fun getWorkerPages(): Int?
         fun getWorkers(page: Int): AppResponse<WorkerPageResponse?>
         fun setWorkers(page: Int, workerList: WorkerPageResponse)
         fun getWorkerDetail(id: Int): AppResponse<OompaLoompaDetailResponse?>
