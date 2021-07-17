@@ -131,7 +131,7 @@
         app:layout_constraintBottom_toTopOf="@id/rv_list"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/iv_filter_button"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/cl_filter_chips" />
 
     <ImageView
         android:id="@+id/iv_filter_button"
