@@ -3,9 +3,22 @@
     <string name="list_fragment_label">Crew list</string>
     <string name="detail_fragment_label">Oompa Loompa Info</string>
 
-    <string name="item_viewholder_worker_name">%1$s %2$s</string>
     <string name="error_message">Error %1$s: %2$s</string>
 
-    <string name="filter_gender_title">Gender</string>
-    <string name="filter_profession_title">Profession</string>
+    <string name="list_view_filter_gender_title">Gender</string>
+    <string name="list_view_filter_profession_title">Profession</string>
+    <string name="item_viewholder_worker_name">%1$s %2$s</string>
+
+    <string name="detail_view_basic_info_title">Basic Information</string>
+    <string name="detail_view_name_hint">Name</string>
+    <string name="detail_view_profession_hint">Profession</string>
+    <string name="detail_view_age_hint">Age</string>
+    <string name="detail_view_gender_hint">Gender</string>
+    <string name="detail_view_height_hint">Height</string>
+    <string name="detail_view_email_hint">Email</string>
+    <string name="detail_view_additional_info_title">Additional information</string>
+    <string name="detail_view_favorite_info_subtitle">Favorites</string>
+    <string name="detail_view_color_hint">Color</string>
+    <string name="detail_view_food_hint">Food</string>
+    <string name="detail_view_quota_subtitle">Quota</string>
 </resources>
