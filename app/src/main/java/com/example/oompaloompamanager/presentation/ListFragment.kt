@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oompaloompamanager.commons.AppResponse
+import com.example.oompaloompamanager.commons.slideInTop
+import com.example.oompaloompamanager.commons.slideOutTop
 import com.example.oompaloompamanager.databinding.ListFragmentBinding
 import com.example.oompaloompamanager.domain.constants.Gender
 import com.example.oompaloompamanager.domain.constants.Profession
@@ -50,8 +52,12 @@ class ListFragment : BaseFragment() {
             adapter = WorkerAdapter(findNavController(), viewModel)
             rvList.adapter = adapter
 
+            clFilterChips.y = clFilterChips.measuredHeight.toFloat()
             ivFilterButton.setOnClickListener {
-                clFilterChips.visibility = if (clFilterChips.isVisible) View.GONE else View.VISIBLE
+                when (clFilterChips.isVisible) {
+                    true -> clFilterChips.slideOutTop()
+                    false -> clFilterChips.slideInTop()
+                }
             }
 
             chipGenderFemale.setOnCheckedChangeListener { _, isChecked ->
@@ -164,7 +170,7 @@ class ListFragment : BaseFragment() {
         }
 
         binding.rvList.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if (scrollY > oldScrollY && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1){
+            if (scrollY > oldScrollY && layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1) {
                 viewModel.getNextWorkers()
             }
         }
