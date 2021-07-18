@@ -1,7 +1,5 @@
 package com.example.oompaloompamanager.presentation.models
 
-import com.example.oompaloompamanager.domain.constants.Gender
-
 data class OompaLoompaViewData(
     val id: Int,
     val firstName: String,

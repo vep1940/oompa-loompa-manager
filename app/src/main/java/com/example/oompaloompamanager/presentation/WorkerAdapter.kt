@@ -3,16 +3,20 @@ package com.example.oompaloompamanager.presentation
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.oompaloompamanager.R
 import com.example.oompaloompamanager.commons.loadImage
 import com.example.oompaloompamanager.databinding.ItemListBinding
 import com.example.oompaloompamanager.presentation.models.OompaLoompaViewData
 
-class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
+class WorkerAdapter(
+    private val navController: NavController,
+    private val viewModel: MainViewModel
+) : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
 
     private val adapterList =
         AsyncListDiffer(this, object : DiffUtil.ItemCallback<OompaLoompaViewData>() {
@@ -45,6 +49,8 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerViewHolder {
         return WorkerViewHolder(
+            navController,
+            viewModel,
             ItemListBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -61,6 +67,8 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
     override fun getItemCount(): Int = adapterList.currentList.size
 
     class WorkerViewHolder(
+        private val navController: NavController,
+        private val viewModel: MainViewModel,
         private val itemListBinding: ItemListBinding,
         private val context: Context
     ) :
@@ -68,6 +76,11 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
 
         fun bind(worker: OompaLoompaViewData) {
             with(itemListBinding) {
+
+                clListItem.setOnClickListener {
+                    viewModel.selectWorker(worker.id)
+                    navController.navigate(R.id.action_list_fragment_to_detail_fragment)
+                }
 
                 ivProfileImage.loadImage(
                     itemView,
@@ -77,7 +90,7 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
                 )
 
                 tvName.text = context.getString(
-                    R.string.item_viewholder_worker_name,
+                    R.string.worker_name,
                     worker.firstName,
                     worker.lastName
                 )

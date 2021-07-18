@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.OompaLoompaManager.TextInputEditText.ReadOnly" parent="">
+        <item name="android:clickable">false</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:inputType">none</item>
+    </style>
+</resources>

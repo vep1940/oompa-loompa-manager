@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.oompaloompamanager.R
+import com.example.oompaloompamanager.commons.AppResponse
+import com.example.oompaloompamanager.commons.loadImage
 import com.example.oompaloompamanager.databinding.DetailFragmentBinding
+import com.example.oompaloompamanager.presentation.models.OompaLoompaDetailViewData
 import dagger.hilt.android.AndroidEntryPoint
 
-class DetailFragment : Fragment() {
+@AndroidEntryPoint
+class DetailFragment : BaseFragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -24,5 +28,58 @@ class DetailFragment : Fragment() {
 
         _binding = DetailFragmentBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.clInfoContainer.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.workerDetail.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is AppResponse.ResponseOk -> {
+                    fillData(response.value)
+                    binding.clInfoContainer.visibility = View.VISIBLE
+                    binding.loading.visibility = View.GONE
+                }
+                is AppResponse.ResponseKo -> {
+                    binding.loading.visibility = View.GONE
+                    showError(response.error)
+                }
+                is AppResponse.Loading -> {
+                    binding.loading.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        viewModel.getWorkerDetail()
+    }
+
+    private fun fillData(data: OompaLoompaDetailViewData) {
+        with(binding) {
+            ivWorkerDetail.loadImage(
+                requireView(),
+                data.image,
+                R.drawable.ic_void_image,
+                R.drawable.ic_broken_image
+            )
+            tvName.setText(getString(R.string.worker_name, data.firstName, data.lastName))
+            tvProfession.setText(data.profession)
+            tvAge.setText(data.age)
+            tvGender.setText(data.gender)
+            tvHeight.setText(data.height)
+            tvEmail.setText(data.email)
+            tvColor.setText(data.favoriteColor)
+            tvFood.setText(data.favoriteFood)
+            tvQuotaInfo.text = data.quota
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.clearWorkerDetail()
+        _binding = null
     }
 }

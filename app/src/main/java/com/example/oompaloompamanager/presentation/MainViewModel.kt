@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.oompaloompamanager.commons.AppResponse
+import com.example.oompaloompamanager.domain.constants.AppError
 import com.example.oompaloompamanager.domain.usecases.GetWorkerDetail
 import com.example.oompaloompamanager.domain.usecases.GetWorkers
 import com.example.oompaloompamanager.presentation.models.OompaLoompaDetailViewData
@@ -32,6 +33,8 @@ class MainViewModel @Inject constructor(
 
     private var _workerList = MutableLiveData<AppResponse<List<OompaLoompaViewData>>>()
     val workerList: LiveData<AppResponse<List<OompaLoompaViewData>>> get() = _workerList
+
+    private var workerId: Int? = null
 
     private var _workerDetail = MutableLiveData<AppResponse<OompaLoompaDetailViewData>>()
     val workerDetail: LiveData<AppResponse<OompaLoompaDetailViewData>> get() = _workerDetail
@@ -91,11 +94,14 @@ class MainViewModel @Inject constructor(
     }
 
     private fun checkFilters() {
-        viewModelScope.launch{
+        viewModelScope.launch {
             workerDataList = workerTotalDataList.filter { worker ->
                 (professionFilters.isEmpty() || professionFilters.contains(worker.profession.lowercase())) &&
-                (genderFilters.isEmpty() || genderFilters.contains(worker.gender.lowercase())) &&
-                (nameFilter.isBlank() || (worker.firstName + " " + worker.lastName).contains(nameFilter, true))
+                        (genderFilters.isEmpty() || genderFilters.contains(worker.gender.lowercase())) &&
+                        (nameFilter.isBlank() || (worker.firstName + " " + worker.lastName).contains(
+                            nameFilter,
+                            true
+                        ))
             }
             _workerList.value = AppResponse.ResponseOk(workerDataList)
         }
@@ -105,22 +111,35 @@ class MainViewModel @Inject constructor(
         _workerList.value = AppResponse.ResponseOk(workerDataList.toList())
     }
 
-    fun getWorkerDetail(id: Int) {
+    fun selectWorker(id: Int) {
+        workerId = id
+    }
+
+    fun getWorkerDetail() {
         viewModelScope.launch {
-            if (_workerDetail.value !is AppResponse.Loading) {
+            workerId?.let { id ->
                 getWorkerDetailUC(id).collect {
                     _workerDetail.value = AppResponse.Loading
                     getWorkerDetailUC(id).collect { viewResponse ->
                         when (viewResponse) {
                             is AppResponse.ResponseOk -> {
-
+                                _workerDetail.value = AppResponse.ResponseOk(viewResponse.value)
                             }
-                            else -> _workerDetail.value = viewResponse
+                            is AppResponse.ResponseKo -> _workerDetail.value = viewResponse
+                            is AppResponse.Loading -> {
+                            }
                         }
                     }
                 }
+                id
+            } ?: apply {
+                _workerDetail.value = AppResponse.ResponseKo(AppError.UNKNOWN_ERROR)
             }
         }
+    }
+
+    fun clearWorkerDetail() {
+        _workerDetail.value = AppResponse.Loading
     }
 
 }

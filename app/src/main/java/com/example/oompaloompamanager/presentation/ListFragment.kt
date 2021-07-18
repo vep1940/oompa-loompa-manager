@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oompaloompamanager.commons.AppResponse
@@ -46,7 +47,7 @@ class ListFragment : BaseFragment() {
         with(binding) {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             rvList.layoutManager = layoutManager
-            adapter = WorkerAdapter()
+            adapter = WorkerAdapter(findNavController(), viewModel)
             rvList.adapter = adapter
 
             ivFilterButton.setOnClickListener {
@@ -194,6 +195,7 @@ class ListFragment : BaseFragment() {
     // Fix -> If screen is rotated when an error is being captured, adapter can not recover data.
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
         viewModel.clearWorkerErrors()
     }
 
