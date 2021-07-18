@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:layout_margin="@dimen/margin_card_view">
+    android:layout_margin="@dimen/grid_1">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,8 +28,8 @@
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_space_between_elements"
-            android:layout_marginEnd="@dimen/horizontal_space_between_elements"
+            android:layout_marginStart="@dimen/h_space_list_item"
+            android:layout_marginEnd="@dimen/h_space_list_item"
             app:layout_constraintBottom_toTopOf="@id/tv_profession"
             app:layout_constraintEnd_toStartOf="@id/tv_gender"
             app:layout_constraintStart_toEndOf="@id/iv_profile_image"
@@ -40,8 +40,8 @@
             android:id="@+id/tv_profession"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_space_between_elements"
-            android:layout_marginEnd="@dimen/horizontal_space_between_elements"
+            android:layout_marginStart="@dimen/h_space_list_item"
+            android:layout_marginEnd="@dimen/h_space_list_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_gender"
             app:layout_constraintStart_toEndOf="@id/iv_profile_image"

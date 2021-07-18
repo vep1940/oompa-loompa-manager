@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="horizontal_space_between_elements">8dp</dimen>
+    <dimen name="grid_0_5">4dp</dimen>
+    <dimen name="grid_1">8dp</dimen>
+    <dimen name="grid_1_5">12dp</dimen>
 
-    <dimen name="margin_card_view">8dp</dimen>
+    <dimen name="h_space_list_item">@dimen/grid_1</dimen>
 
-    <dimen name="padding_start_content_card_view">8dp</dimen>
-    <dimen name="padding_top_content_card_view">8dp</dimen>
-    <dimen name="padding_end_content_card_view">8dp</dimen>
-    <dimen name="padding_bottom_content_card_view">8dp</dimen>
+    <dimen name="padding_start_content_card_view">@dimen/grid_1</dimen>
+    <dimen name="padding_top_content_card_view">@dimen/grid_1</dimen>
+    <dimen name="padding_end_content_card_view">@dimen/grid_1</dimen>
+    <dimen name="padding_bottom_content_card_view">@dimen/grid_1</dimen>
 
-    <dimen name="paddig_image_view_button">12dp</dimen>
+    <dimen name="padding_image_view_button">@dimen/grid_1_5</dimen>
 
 </resources>
