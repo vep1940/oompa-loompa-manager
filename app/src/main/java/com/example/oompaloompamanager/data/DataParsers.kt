@@ -48,6 +48,7 @@ fun OompaLoompaDetailResponse.toDomain(): OompaLoompaDetail{
         email,
         age,
         height,
+        quota,
         favorite.toDomain()
     )
 }

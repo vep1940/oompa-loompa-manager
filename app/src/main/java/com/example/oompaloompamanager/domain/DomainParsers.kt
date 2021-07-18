@@ -31,6 +31,7 @@ fun OompaLoompaDetail.toViewData(): OompaLoompaDetailViewData{
         email,
         age.toString(),
         height.toString(),
+        quota,
         additionalInfo.favoriteColor,
         additionalInfo.favoriteFood
     )

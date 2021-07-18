@@ -9,6 +9,7 @@ data class OompaLoompaDetailViewData(
     val email: String,
     val age: String,
     val height: String,
+    val quota : String,
     val favoriteColor: String,
     val favoriteFood: String
 )

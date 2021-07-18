@@ -11,5 +11,6 @@ data class OompaLoompaDetail(
     val email: String,
     val age: Int,
     val height: Int,
+    val quota: String,
     val additionalInfo: AdditionalInfo
 )
