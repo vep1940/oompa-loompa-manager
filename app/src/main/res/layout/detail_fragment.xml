@@ -6,20 +6,23 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/sv_info_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_info_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_worker_detail"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.4"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
@@ -52,9 +55,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_name"
+                            style="@style/Widget.OompaLoompaManager.TextInputEditText.ReadOnly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
                             tools:text="Carlos García" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -69,9 +72,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_profession"
+                            style="@style/Widget.OompaLoompaManager.TextInputEditText.ReadOnly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
                             tools:text="Metalworker" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -89,9 +92,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_age"
+                            style="@style/Widget.OompaLoompaManager.TextInputEditText.ReadOnly"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
                             tools:text="21" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -109,9 +112,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_gender"
+                            style="@style/Widget.OompaLoompaManager.TextInputEditText.ReadOnly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
                             tools:text="Male" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -129,9 +132,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_height"
+                            style="@style/Widget.OompaLoompaManager.TextInputEditText.ReadOnly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
                             tools:text="192" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -146,9 +149,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_email"
+                            style="@style/Widget.OompaLoompaManager.TextInputEditText.ReadOnly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
                             tools:text="carlosgarcia@oompamail.com" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -182,9 +185,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_color"
+                            style="@style/Widget.OompaLoompaManager.TextInputEditText.ReadOnly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
                             tools:text="Aquamarine" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -201,9 +204,9 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/tv_food"
+                            style="@style/Widget.OompaLoompaManager.TextInputEditText.ReadOnly"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
                             tools:text="Carpaccio" />
 
                     </com.google.android.material.textfield.TextInputLayout>
