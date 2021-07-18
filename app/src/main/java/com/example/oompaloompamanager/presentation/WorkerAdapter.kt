@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.oompaloompamanager.R
+import com.example.oompaloompamanager.commons.loadImage
 import com.example.oompaloompamanager.databinding.ItemListBinding
 import com.example.oompaloompamanager.presentation.models.OompaLoompaViewData
 
@@ -68,11 +69,13 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerAdapter.WorkerViewHolder>() {
         fun bind(worker: OompaLoompaViewData) {
             with(itemListBinding) {
 
-                Glide.with(itemView)
-                    .load(worker.image)
-                    .placeholder(R.drawable.ic_void_image)
-                    .error(R.drawable.ic_broken_image)
-                    .into(ivProfileImage)
+                ivProfileImage.loadImage(
+                    itemView,
+                    worker.image,
+                    R.drawable.ic_void_image,
+                    R.drawable.ic_broken_image
+                )
+
                 tvName.text = context.getString(
                     R.string.item_viewholder_worker_name,
                     worker.firstName,
