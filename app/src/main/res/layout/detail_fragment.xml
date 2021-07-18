@@ -22,7 +22,9 @@
                 android:id="@+id/iv_worker_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_void_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView

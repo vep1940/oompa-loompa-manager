@@ -11,6 +11,9 @@ import com.example.oompaloompamanager.commons.loadImage
 import com.example.oompaloompamanager.databinding.DetailFragmentBinding
 import com.example.oompaloompamanager.presentation.models.OompaLoompaDetailViewData
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment() {
@@ -30,10 +33,6 @@ class DetailFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.clInfoContainer.visibility = View.GONE
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -41,7 +40,6 @@ class DetailFragment : BaseFragment() {
             when (response) {
                 is AppResponse.ResponseOk -> {
                     fillData(response.value)
-                    binding.clInfoContainer.visibility = View.VISIBLE
                     binding.loading.visibility = View.GONE
                 }
                 is AppResponse.ResponseKo -> {
@@ -58,22 +56,24 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun fillData(data: OompaLoompaDetailViewData) {
-        with(binding) {
-            ivWorkerDetail.loadImage(
-                requireView(),
-                data.image,
-                R.drawable.ic_void_image,
-                R.drawable.ic_broken_image
-            )
-            tvName.setText(getString(R.string.worker_name, data.firstName, data.lastName))
-            tvProfession.setText(data.profession)
-            tvAge.setText(data.age)
-            tvGender.setText(data.gender)
-            tvHeight.setText(data.height)
-            tvEmail.setText(data.email)
-            tvColor.setText(data.favoriteColor)
-            tvFood.setText(data.favoriteFood)
-            tvQuotaInfo.text = data.quota
+        CoroutineScope(Dispatchers.Main).launch {
+            with(binding) {
+                ivWorkerDetail.loadImage(
+                    requireView(),
+                    data.image,
+                    R.drawable.ic_void_image,
+                    R.drawable.ic_broken_image
+                )
+                tvName.setText(getString(R.string.worker_name, data.firstName, data.lastName))
+                tvProfession.setText(data.profession)
+                tvAge.setText(data.age)
+                tvGender.setText(data.gender)
+                tvHeight.setText(data.height)
+                tvEmail.setText(data.email)
+                tvColor.setText(data.favoriteColor)
+                tvFood.setText(data.favoriteFood)
+                tvQuotaInfo.text = data.quota
+            }
         }
     }
 
