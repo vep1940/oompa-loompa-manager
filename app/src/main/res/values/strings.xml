@@ -4,6 +4,9 @@
     <string name="detail_fragment_label">Oompa Loompa Info</string>
 
     <string name="error_message">Error %1$s: %2$s</string>
+    <string name="request_failure_error">There is something wrong with the network, please try again later.</string>
+    <string name="no_more_workers_error">No more workers.</string>
+    <string name="unknown_error">Unknown error, please try again later.</string>
 
     <string name="worker_name">%1$s %2$s</string>
 
