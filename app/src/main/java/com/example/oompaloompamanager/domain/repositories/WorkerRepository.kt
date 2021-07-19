@@ -1,4 +1,4 @@
-package com.example.oompaloompamanager.data.repositories
+package com.example.oompaloompamanager.domain.repositories
 
 import com.example.oompaloompamanager.commons.AppResponse
 import com.example.oompaloompamanager.domain.models.OompaLoompa

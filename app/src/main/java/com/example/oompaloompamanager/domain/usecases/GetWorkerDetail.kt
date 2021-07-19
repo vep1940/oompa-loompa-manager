@@ -1,10 +1,11 @@
 package com.example.oompaloompamanager.domain.usecases
 
-import com.example.oompaloompamanager.commons.AppResponse
-import com.example.oompaloompamanager.presentation.models.OompaLoompaDetailViewData
-import kotlinx.coroutines.flow.Flow
+import com.example.oompaloompamanager.domain.repositories.WorkerRepository
 
-interface GetWorkerDetail {
+import javax.inject.Inject
 
-    operator fun invoke(id: Int): Flow<AppResponse<OompaLoompaDetailViewData>>
+class GetWorkerDetail @Inject constructor(private val workerRepository: WorkerRepository) {
+
+    operator fun invoke(id: Int) = workerRepository.getWorkerDetail(id)
+
 }

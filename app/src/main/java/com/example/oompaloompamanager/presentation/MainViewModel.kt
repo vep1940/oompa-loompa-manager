@@ -11,8 +11,6 @@ import com.example.oompaloompamanager.domain.usecases.GetWorkers
 import com.example.oompaloompamanager.presentation.models.OompaLoompaDetailViewData
 import com.example.oompaloompamanager.presentation.models.OompaLoompaViewData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,7 +45,9 @@ class MainViewModel @Inject constructor(
                 getWorkersUC(page).collect { viewResponse ->
                     when (viewResponse) {
                         is AppResponse.ResponseOk -> {
-                            workerTotalDataList.addAll(viewResponse.value)
+                            workerTotalDataList.addAll(
+                                viewResponse.value.map { worker -> worker.toViewData() }
+                            )
                             checkFilters()
                             page++
                         }
@@ -123,7 +123,8 @@ class MainViewModel @Inject constructor(
                     getWorkerDetailUC(id).collect { viewResponse ->
                         when (viewResponse) {
                             is AppResponse.ResponseOk -> {
-                                _workerDetail.value = AppResponse.ResponseOk(viewResponse.value)
+                                _workerDetail.value =
+                                    AppResponse.ResponseOk(viewResponse.value.toViewData())
                             }
                             is AppResponse.ResponseKo -> _workerDetail.value = viewResponse
                             is AppResponse.Loading -> {

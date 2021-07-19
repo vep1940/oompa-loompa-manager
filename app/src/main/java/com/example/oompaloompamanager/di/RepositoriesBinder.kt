@@ -1,7 +1,7 @@
 package com.example.oompaloompamanager.di
 
 import com.example.oompaloompamanager.data.repositories.ImplWorkerRepository
-import com.example.oompaloompamanager.data.repositories.WorkerRepository
+import com.example.oompaloompamanager.domain.repositories.WorkerRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

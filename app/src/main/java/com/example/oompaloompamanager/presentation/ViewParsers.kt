@@ -1,4 +1,4 @@
-package com.example.oompaloompamanager.domain
+package com.example.oompaloompamanager.presentation
 
 import com.example.oompaloompamanager.domain.models.OompaLoompa
 import com.example.oompaloompamanager.domain.models.OompaLoompaDetail
