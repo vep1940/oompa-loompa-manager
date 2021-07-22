@@ -69,7 +69,7 @@ class ExampleUnitTest {
                     "Song"
                 ),
                 "M",
-                "Mail"
+                "Email"
             )
         )
 
